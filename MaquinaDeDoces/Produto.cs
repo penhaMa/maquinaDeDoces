@@ -54,6 +54,7 @@ namespace MaquinaDeDoces
             }//Fim do set - modificar o código
         }//Fim do ModificarCodigo
 
+        //Modificar nome
         public string ModificarNome
         {
             get
