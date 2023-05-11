@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace MaquinaDeDoces
 {
-    class ControlProduto
+    class ControlPagamento
     {
-        Produto prod;
+        Pagamento paga;
         private int opcao;
 
-        public ControlProduto()
+        public ControlPagamento()
         {
-            prod = new Produto();
+            paga = new Pagamento();
             ModificarOpcao = -1;
         }//Fim do construtor
 
@@ -28,10 +28,10 @@ namespace MaquinaDeDoces
         public void Menu()
         {
             Console.WriteLine("\n\n\nEscolha uma das opções abaixo: \n" +
-                "0 - Sair\n"                 +
+                "0 - Sair\n" +
                 "1 - Cadastrar um Produto\n" +
                 "2 - Consultar um Produto\n" +
-                "3 - Atualizar Produto\n"    +
+                "3 - Atualizar Produto\n" +
                 "4 - Mudar Situação\n");
             ModificarOpcao = Convert.ToInt32(Console.ReadLine());
             Console.Clear();//Limpa tela
@@ -42,7 +42,7 @@ namespace MaquinaDeDoces
         {
             do
             {
-                
+
                 Menu();//Monstrando o menu
                 switch (ModificarOpcao)
                 {

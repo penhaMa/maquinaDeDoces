@@ -43,7 +43,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ControlMaquina.cs" />
+    <Compile Include="ControlPagamento.cs" />
     <Compile Include="ControlProduto.cs" />
+    <Compile Include="Maquina.cs" />
+    <Compile Include="Pagamento.cs" />
     <Compile Include="Produto.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace MaquinaDeDoces
 {
-    class ControlProduto
+    class ControlMaquina
     {
-        Produto prod;
+        Maquina maqui;
         private int opcao;
 
-        public ControlProduto()
+        public ControlMaquina()
         {
-            prod = new Produto();
+            maqui = new Maquina();
             ModificarOpcao = -1;
         }//Fim do construtor
 
@@ -28,11 +28,9 @@ namespace MaquinaDeDoces
         public void Menu()
         {
             Console.WriteLine("\n\n\nEscolha uma das opções abaixo: \n" +
-                "0 - Sair\n"                 +
-                "1 - Cadastrar um Produto\n" +
-                "2 - Consultar um Produto\n" +
-                "3 - Atualizar Produto\n"    +
-                "4 - Mudar Situação\n");
+                "0 - Sair\n" +
+                "1 - Registrar Manutenção\n" +
+                "2 - Efetuar Saque\n");
             ModificarOpcao = Convert.ToInt32(Console.ReadLine());
             Console.Clear();//Limpa tela
         }//Fim do método Menu Get e Set opcao
@@ -42,7 +40,7 @@ namespace MaquinaDeDoces
         {
             do
             {
-                
+
                 Menu();//Monstrando o menu
                 switch (ModificarOpcao)
                 {
@@ -50,16 +48,10 @@ namespace MaquinaDeDoces
                         Console.WriteLine("Obrigado!");
                         break;
                     case 1:
-                        ColetarDados();
+                        RegistrarManutencao();
                         break;
                     case 2:
-                        Consultar();
-                        break;
-                    case 3:
-                        Atualizar();
-                        break;
-                    case 4:
-                        AlterarSituacao();
+                        EfetuarSaque();
                         break;
                     default:
                         Console.WriteLine("Opção escolhida não é válida!");
@@ -68,8 +60,8 @@ namespace MaquinaDeDoces
             } while (ModificarOpcao != 0);
         }//Fim do método operação
 
-        //Método de solicitação de dados 
-        public void ColetarDados()
+        //Método informar saque 
+        public void InformarSaque()
         {
             //Coletar Dados
             Console.WriteLine("Informe um código: ");
@@ -96,9 +88,9 @@ namespace MaquinaDeDoces
             //Cadastrar o produto
             prod.CadastrarProduto(codigo, nome, descricao, preco, quantidade, dtValidade, situacao);
             Console.WriteLine("Dado Cadastrado!");
-        }//Fim do coletar dados
+        }//Fim do informar saque
 
-        //Consultar os dados do produto
+        //Método bloquear pagamento de dinheiro
         public void Consultar()
         {
             Console.WriteLine("\n\n\nInforme o código do produto que deseja consultar: ");
@@ -106,9 +98,9 @@ namespace MaquinaDeDoces
 
             //Escrever o resultado na tela
             Console.WriteLine("Os dados do produto escolhido são: \n\n\n" + prod.ConsultarProduto(codigo));
-        }//Fim do consultar dados
+        }//Fim do método bloquear pagamento de dinheiro
 
-        //Atualizar produto
+        //Método bloquear pagamento de cartão
         public void Atualizar()
         {
 
@@ -139,17 +131,35 @@ namespace MaquinaDeDoces
 
             //Chamar o método de atualização
             prod.AtualizarProduto(codigo, campo, novoDado);
-        }//Fim do método Atualizar
+        }//Fim do método bloquear pagamento de cartão
 
-        public void AlterarSituacao()
+        //Método registrar manutenção
+        public void RegistrarManutencao()
         {
-            Console.WriteLine("Informe o código do produto que deseja alterar o status: ");
-            int codigo = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Informe o Usuario: ");
+            string usuario = Console.ReadLine();
+
+            Console.WriteLine("\nInforme a Senha: ");
+            int senha = Convert.ToInt32(Console.ReadLine());
 
             //Chamar o método alterarSituação - Classe Produto
             prod.AlterarSituacao(codigo);
             Console.WriteLine("Alterado!");
-        }//Fim do método Alterar Situação
+        }//Fim do método registrar manutenção
+
+        //Método efetuar saque
+        public void EfetuarSaque()
+        {
+            Console.WriteLine("Informe o Usuario: ");
+            string usuario = Console.ReadLine();
+
+            Console.WriteLine("\nInforme a Senha: ");
+            int senha = Convert.ToInt32(Console.ReadLine());
+
+            //Chamar o método alterarSituação - Classe Produto
+            prod.AlterarSituacao(codigo);
+            Console.WriteLine("Alterado!");
+        }//Fim do método efetuar saque
 
     }//Fim da classe
 }//Fim do projeto
