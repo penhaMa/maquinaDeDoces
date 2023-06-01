@@ -1,6 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Net.Configuration;
+using System.Runtime.InteropServices;
+using System.Runtime.Remoting;
+using System.Runtime.Remoting.Channels;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,30 +15,26 @@ namespace MaquinaDeDoces
     {
         //Definição de variáveis
         private int codigo;
-        private string descricao;
         private double valorTotal;
-        private int formaDePagamento;
+        private short formaDePagamento;
         private DateTime dataHora;
+        private int codCartao;
+        private short bandeiraCartao;
+        private double trocoMaquina;
+        private double troco;
 
         //Método construtor
         public Pagamento()
         {
             ModificarCodigo = 0;
-            ModificarDescricao = "";
             ModificarValorTotal = 0;
             ModificarFormaDePagamento = 0;
             ModificarDataHora = new DateTime();//0000/00/00 00:00:00
+            ModificarCodCartao = 0;
+            ModificarBandeiraCartao = 0;
+            ModificarTrocoMaquina = 100;
+            ModificarTroco = 0;
         }//Fim do método construtor
-
-        //Método construtor com parâmetros
-        public Pagamento(int codigo, string descricao, double valorTotal, int formaDePagamento, DateTime dataHora)
-        {
-            ModificarCodigo = codigo;
-            ModificarDescricao = descricao;
-            ModificarValorTotal = valorTotal;
-            ModificarFormaDePagamento = formaDePagamento;
-            ModificarDataHora = dataHora;
-        }//Fim do método construtor com parâmetros
 
         //Métodos Get e Set
         //Métodos de acesso e modificação
@@ -50,19 +51,6 @@ namespace MaquinaDeDoces
             }//Fim do set - modificar o código
         }//Fim do ModificarCodigo
 
-        public string ModificarDescricao
-        {
-            get
-            {
-                return this.descricao;
-            }//Fim do get - retornar a descrição
-
-            set
-            {
-                this.descricao = value;
-            }//Fim do set - modificar a descrição
-        }//Fim do ModificarDescrição
-
         public double ModificarValorTotal
         {
             get
@@ -76,7 +64,7 @@ namespace MaquinaDeDoces
             }//Fim do set - modificar o valor total
         }//Fim do ModificarPreco
 
-        public int ModificarFormaDePagamento
+        public short ModificarFormaDePagamento
         {
             get
             {
@@ -102,101 +90,144 @@ namespace MaquinaDeDoces
             }//Fim do set - modificar a data e a hora
         }//Fim do ModificarDtValidade
 
-        //Método verificar notas
-        public Boolean VerificarNotas(int codigo, Boolean validacao)
+        public int ModificarCodCartao
         {
-            string msg = "";//Criando uma variável local
-            if (ModificarCodigo == codigo)
+            get
             {
-                msg = "Código:" + ModificarCodigo + "Essa nota é:" + validacao;
+                return this.codCartao;
+            }//Fim do get - retornar o código
+
+            set
+            {
+                this.codCartao = value;
+            }//Fim do set - modificar o código
+        }//Fim do ModificarCodigo
+
+        public short ModificarBandeiraCartao
+        {
+            get
+            {
+                return this.bandeiraCartao;
+            }//Fim do get - retornar o código
+
+            set
+            {
+                this.bandeiraCartao = value;
+            }//Fim do set - modificar o código
+        }//Fim do ModificarCodigo
+
+        public double ModificarTrocoMaquina
+        {
+            get
+            {
+                return this.trocoMaquina;
+            }//Fim do get - retornar o código
+
+            set
+            {
+                this.trocoMaquina = value;
+            }//Fim do set - modificar o código
+        }//Fim do ModificarCodigo
+
+        public double ModificarTroco
+        {
+            get
+            {
+                return this.troco;
+            }//Fim do get - retornar o código
+
+            set
+            {
+                this.troco = value;
+            }//Fim do set - modificar o código
+        }//Fim do ModificarTroco
+
+        //Método Verificar Notas
+        public string VerificarNotas(double entradaDinheiro, double valorProduto)
+        {
+            if (entradaDinheiro >= valorProduto)
+            {
+                return "OK";
             }
             else
             {
-                msg = "O código digitado não existe!";
+                return "NOK";
             }//Fim do se e senão
 
-            return msg;
-        }//Fim do método verificar notas
+        }//Fim do Verificar Notas
 
-        //Método verificar troco
-        public Boolean VerificarTroco(int codigo, double validacao)
+        //Método Existe Troco
+        public Boolean ExisteTroco(double entradaDinheiro, double valorProduto)
         {
-            double valorEntrada = 0;//Criando uma variável local
-            string msg = "";//Criando uma variável local
-            if (ModificarCodigo == codigo)
-            {
-                validacao = ModificarValorTotal - valorEntrada;
-                msg = "O valor do Troco é :" + validacao;
-            }
-            else
-            {
-                msg = "O código digitado não existe!";
-            }//Fim do se e senão
-
-            return msg;
-        }//Fim do método verificar troco
-
-        //Método verificar troco
-        public string ValidarCartao(int codigo, string cartao, string validacao)
-        {
-            int cartaoCredito = 0;
-            int cartaoDebito = 0;
-            int dinheiro = 0;
-            if (ModificarCodigo == codigo)
-            {
-                switch (validacao)
-                {
-                    case 1:
-                        Console.WriteLine("Insira o cartão de crédito: ");
-                        int cartaoCredito = Convert.ToInt32(Console.ReadLine());
-                        break;
-                    case 2:
-                        Console.WriteLine("Insira o cartão de débito: ");
-                        int cartaoDebito = Convert.ToInt32(Console.ReadLine());
-                        break;
-                    case 3:
-                        Console.WriteLine("Insira o dinheiro: ");
-                        int dinheiro = Convert.ToInt32(Console.ReadLine());
-                        break;
-                    default:
-                        Console.WriteLine("Digite um número válido: ");
-                        Console.ReadLine();
-                        break;
-                }//Fim da escolha
-            }//Fim do if
-        }//Fim do método atualizar produto
-
-        //Método efetuar pagamento
-        public double EfetuarPagamento(int codigo)
-        {
-            Boolean flag = false;
-            if (ModificarCodigo == codigo)
-            {
-                if (ModificarSituacao == true)
-                {
-                    ModificarSituacao = false;
-                }
-                else
-                {
-                    ModificarSituacao = true;
-                }//Fim do AlterarSituacao
-                flag = true;
-            }//Fim do se  senão
-            return flag;
-        }//Fim do Método efetuar pagamento
-
-        //Método consultar pagamento
-        public Boolean ConsultarPagamento()
-        {
-            if (ModificarCodigo == codigo)
-            {
-                if (ModificarQuantidade <= 3)
+                if (entradaDinheiro > valorProduto)
                 {
                     return true;
-                }
-            }//Fim do se senao
-            return false;
-        }//Fim do método solicitar produto
+                }//Fim do se e senão
+
+                return false;
+            
+        }//Fim do ExisteTroco
+
+        //Método verificar troco
+        public void VerificarTroco(double entradaDinheiro, double valorProduto)
+        {
+            Boolean respTroco = false;
+            respTroco = ExisteTroco(entradaDinheiro, valorProduto);
+            if (respTroco == true)
+            { 
+                ModificarTroco = entradaDinheiro - valorProduto;
+            }
+            else
+            {
+                ModificarTroco = 0;
+            }
+        }//Fim do método verificar troco
+
+        //Método Menu forma de pagamento
+        public string MenuFormadePagamento()
+        {
+            return "Escolher uma das opções abaixo:" + "\n1. Dinheiro \n2. Cartão";
+        }//Fim do método Menu forma de pagamento
+
+        //Método efetuar pagamento
+        public void EfetuarPagamentoDinheiro(double entradaPagamento, double valorProduto)
+        {
+            string resp = "";
+            resp = VerificarNotas(entradaPagamento, valorProduto);
+           
+            if (resp == "OK")
+            {
+                ModificarCodigo++;
+                ModificarValorTotal = valorProduto;
+                ModificarFormaDePagamento = 1;
+                ModificarDataHora = DateTime.Now;//Pegar a data é hora da transação
+                ModificarTrocoMaquina += valorProduto;
+                VerificarTroco(entradaPagamento, valorProduto);
+                imprimir();
+            }
+        }//Fim do Método efetuar pagamento
+
+        //Método Efetuar pagamento cartao
+        public void EfetuarPagamentoCartao(double entradaPagamento, double valorProduto, int codCartao, short bandeiraCartao)
+        {
+            ModificarCodigo++;
+            ModificarValorTotal = valorProduto;
+            ModificarFormaDePagamento = 1;
+            ModificarDataHora = DateTime.Now;//Pegar a data é hora da transação
+            ModificarBandeiraCartao = bandeiraCartao;
+            ModificarCodCartao = codCartao;
+            imprimir();
+        }//Fim do método efetuar pagamento cartao
+
+        //Método imprimir
+        public string imprimir()
+        {
+            return "Código: "               + ModificarCodigo           +
+                   "\nValor Total: "        + ModificarValorTotal       +
+                   "\nTroco: "              + ModificarTroco            +
+                   "\nForma de Pagamento: " + ModificarFormaDePagamento +
+                   "\nData e Hora: "        + ModificarDataHora;
+        }//Fim do método imprimir
 
     }//Fim da classe
 }//Fim do Projeto
