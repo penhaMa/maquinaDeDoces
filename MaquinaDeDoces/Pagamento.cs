@@ -142,7 +142,7 @@ namespace MaquinaDeDoces
             }//Fim do set - modificar o código
         }//Fim do ModificarTroco
 
-        //Método Verificar Notas
+        //Método do modelo de negócio
         public string VerificarNotas(double entradaDinheiro, double valorProduto)
         {
             if (entradaDinheiro >= valorProduto)
@@ -152,42 +152,37 @@ namespace MaquinaDeDoces
             else
             {
                 return "NOK";
-            }//Fim do se e senão
+            }
+        }//fim do verificarNotas 
 
-        }//Fim do Verificar Notas
-
-        //Método Existe Troco
         public Boolean ExisteTroco(double entradaDinheiro, double valorProduto)
         {
-                if (entradaDinheiro > valorProduto)
-                {
-                    return true;
-                }//Fim do se e senão
+            if (entradaDinheiro > valorProduto)
+            {
+                return true;
+            }
+            return false;
+        }//fim do existeTroco
 
-                return false;
-            
-        }//Fim do ExisteTroco
-
-        //Método verificar troco
         public void VerificarTroco(double entradaDinheiro, double valorProduto)
         {
             Boolean respTroco = false;
             respTroco = ExisteTroco(entradaDinheiro, valorProduto);
             if (respTroco == true)
-            { 
+            {
                 ModificarTroco = entradaDinheiro - valorProduto;
             }
             else
             {
                 ModificarTroco = 0;
             }
-        }//Fim do método verificar troco
+        }//fim do verificarTroco
 
-        //Método Menu forma de pagamento
-        public string MenuFormadePagamento()
+        public string MenuFormaDePagamento()
         {
-            return "Escolher uma das opções abaixo:" + "\n1. Dinheiro \n2. Cartão";
-        }//Fim do método Menu forma de pagamento
+            return "Escolha uma das opções abaixo: " + "\n1. Dinheiro \n2. Cartão";
+        }//Fim do método
+
 
         //Método efetuar pagamento
         public void EfetuarPagamentoDinheiro(double entradaPagamento, double valorProduto)
@@ -203,12 +198,11 @@ namespace MaquinaDeDoces
                 ModificarDataHora = DateTime.Now;//Pegar a data é hora da transação
                 ModificarTrocoMaquina += valorProduto;
                 VerificarTroco(entradaPagamento, valorProduto);
-                imprimir();
             }
         }//Fim do Método efetuar pagamento
 
         //Método Efetuar pagamento cartao
-        public void EfetuarPagamentoCartao(double entradaPagamento, double valorProduto, int codCartao, short bandeiraCartao)
+        public void EfetuarPagamentoCartao(double valorProduto, int codCartao, short bandeiraCartao)
         {
             ModificarCodigo++;
             ModificarValorTotal = valorProduto;
@@ -216,7 +210,6 @@ namespace MaquinaDeDoces
             ModificarDataHora = DateTime.Now;//Pegar a data é hora da transação
             ModificarBandeiraCartao = bandeiraCartao;
             ModificarCodCartao = codCartao;
-            imprimir();
         }//Fim do método efetuar pagamento cartao
 
         //Método imprimir

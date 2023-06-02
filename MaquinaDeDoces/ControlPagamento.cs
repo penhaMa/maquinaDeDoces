@@ -9,147 +9,69 @@ namespace MaquinaDeDoces
     class ControlPagamento
     {
         Pagamento pgto;
-        private int opcao;
+        private short opcao;
 
+        //Método construtor
         public ControlPagamento()
         {
             pgto = new Pagamento();
-            ModificarOpcao = -1;
         }//Fim do construtor
 
         //Método Get e Set
-        public int ModificarOpcao
+        public short ModificarOpcao
         {
             get { return opcao; }
             set { opcao = value; }
         }
+        //Fim do método get e set
 
-        //Método Menu
-        public void Menu()
+        //Método Escolher forma de pagamento
+        public void EscolherFormaDePagamento()
         {
-            Console.WriteLine("\n\n\nEscolha uma das opções abaixo: \n" +
-                "0 - Sair\n" +
-                "1 - Cadastrar um Produto\n" +
-                "2 - Consultar um Produto\n" +
-                "3 - Atualizar Produto\n" +
-                "4 - Mudar Situação\n");
-            ModificarOpcao = Convert.ToInt32(Console.ReadLine());
-            Console.Clear();//Limpa tela
-        }//Fim do método Menu Get e Set opcao
+            Console.WriteLine(pgto.MenuFormaDePagamento());//Mostrando o menu na tela
+            short opcao = Convert.ToInt16(Console.ReadLine());//Coletando a resposta
+        }
+        //Fim do método Escolher forma de pagamento
 
-        //Realizar a operação
+        //Método Operação
         public void Operacao()
         {
-            do
-            {
+            EscolherFormaDePagamento();
 
-                Menu();//Monstrando o menu
-                switch (ModificarOpcao)
-                {
-                    case 0:
-                        Console.WriteLine("Obrigado!");
-                        break;
-                    case 1:
-                        ColetarDados();
-                        break;
-                    case 2:
-                        Consultar();
-                        break;
-                    case 3:
-                        Atualizar();
-                        break;
-                    case 4:
-                        AlterarSituacao();
-                        break;
-                    default:
-                        Console.WriteLine("Opção escolhida não é válida!");
-                        break;
-                }//Fim do switch
-            } while (ModificarOpcao != 0);
+            switch (ModificarOpcao)
+            { 
+                case 1:
+                    Console.WriteLine("Pgamento com Dinheiro: \n\n");
+                    Console.WriteLine("Valor Inserido na máquina: ");
+                    double valorInserido = Convert.ToDouble(Console.ReadLine());
+
+                    Console.WriteLine("\n\nValor do Produto: ");
+                    double valorProduto = Convert.ToDouble(Console.ReadLine());
+
+                    //Utilizar o método efetuar pagamento dinheiro
+                    pgto.EfetuarPagamentoDinheiro(valorInserido, valorProduto);
+                    Console.WriteLine(pgto.imprimir());
+                    break;
+                case 2:
+                    Console.WriteLine("Pgamento com Cartão: \n\n");
+                    Console.WriteLine("\n\nValor do Produto: ");
+                    valorProduto = Convert.ToDouble(Console.ReadLine());
+
+                    Console.WriteLine("\n\nCódigo do Cartão: ");
+                    int codCartao = Convert.ToInt32(Console.ReadLine());
+
+                    Console.WriteLine("\n\nBandeira do Cartão: \n1- Visa\n2-Mastercard\n3-Elo");
+                    short bandeiraCartao = Convert.ToInt16(Console.ReadLine());
+
+                    //Utilizar o método efetuar pagamento dinheiro
+                    pgto.EfetuarPagamentoCartao(valorProduto, codCartao, bandeiraCartao);
+                    Console.WriteLine(pgto.imprimir());
+                    break;
+                default: 
+                    Console.WriteLine("Impossivel realizar a operação, tente novamente!");
+                    break;
+            }//Fim do switch
         }//Fim do método operação
-
-        //Método de solicitação de dados 
-        public void ColetarDados()
-        {
-            //Coletar Dados
-            Console.WriteLine("Informe um código: ");
-            int codigo = Convert.ToInt32(Console.ReadLine());
-
-            Console.WriteLine("Informe o nome do produto: ");
-            string nome = Console.ReadLine();
-
-            Console.WriteLine("Faça uma breve descrição do produto: ");
-            string descricao = Console.ReadLine();
-
-            Console.WriteLine("Informe o preço do produto: ");
-            double preco = Convert.ToDouble(Console.ReadLine());
-
-            Console.WriteLine("Informe a quantidade de produtos em estoque: ");
-            int quantidade = Convert.ToInt32(Console.ReadLine());
-
-            Console.WriteLine("Informe a data de validade do lote do produto: ");
-            DateTime dtValidade = Convert.ToDateTime(Console.ReadLine());
-
-            Console.WriteLine("Informe a situação: True - Ativo | False - Inativo ");
-            Boolean situacao = Convert.ToBoolean(Console.ReadLine());
-
-            //Cadastrar o produto
-            prod.CadastrarProduto(codigo, nome, descricao, preco, quantidade, dtValidade, situacao);
-            Console.WriteLine("Dado Cadastrado!");
-        }//Fim do coletar dados
-
-        //Consultar os dados do produto
-        public void Consultar()
-        {
-            Console.WriteLine("\n\n\nInforme o código do produto que deseja consultar: ");
-            int codigo = Convert.ToInt32(Console.ReadLine());
-
-            //Escrever o resultado na tela
-            Console.WriteLine("Os dados do produto escolhido são: \n\n\n" + prod.ConsultarProduto(codigo));
-        }//Fim do consultar dados
-
-        //Atualizar produto
-        public void Atualizar()
-        {
-
-            Console.WriteLine("\n\nInforme o código do produto que deseja atualizar: ");
-            int codigo = Convert.ToInt32(Console.ReadLine());
-
-            short campo = 0;
-
-            do
-            {
-                Console.WriteLine("\n\nInforme o código do produto que deseja atualizar de acordo com a regra abaixo: \n" +
-                    "1 - Nome\n" +
-                    "2 - Descrição\n" +
-                    "3 - Preço\n" +
-                    "4 - Quantidade\n" +
-                    "5 - Data de Validade\n" +
-                    "6 - Situação\n");
-                campo = Convert.ToInt16(Console.ReadLine());
-                //Avisar o usuário
-                if ((campo < 1) || (campo > 6))
-                {
-                    Console.WriteLine("Erro, escolha um código entre 1 e 6");
-                }
-            } while ((campo < 1) || (campo > 6));
-
-            Console.WriteLine("Informe o dado para a atualização: ");
-            string novoDado = Console.ReadLine();
-
-            //Chamar o método de atualização
-            prod.AtualizarProduto(codigo, campo, novoDado);
-        }//Fim do método Atualizar
-
-        public void AlterarSituacao()
-        {
-            Console.WriteLine("Informe o código do produto que deseja alterar o status: ");
-            int codigo = Convert.ToInt32(Console.ReadLine());
-
-            //Chamar o método alterarSituação - Classe Produto
-            prod.AlterarSituacao(codigo);
-            Console.WriteLine("Alterado!");
-        }//Fim do método Alterar Situação
 
     }//Fim da classe
 }//Fim do projeto

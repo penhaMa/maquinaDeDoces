@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace MaquinaDeDoces
 {
-    internal class Program
+    class Program
     {
         static void Main(string[] args)
         {
             //Conecta com a classe Control Produto
-            ControlProduto controlProd = new ControlProduto();
+            ControlPagamento controlPgto = new ControlPagamento();
 
             //Chamar o método principal daquela classe
-            controlProd.Operacao();
+            controlPgto.Operacao();
 
             Console.ReadLine();//Manter a janela aberta
         }//Fim do método main
